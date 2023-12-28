@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface AdministradorRepo extends JpaRepository<Administrador, UUID> {
     Optional<Administrador> findFirstByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
 
 }

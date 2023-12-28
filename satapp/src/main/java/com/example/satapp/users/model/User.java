@@ -38,6 +38,8 @@ public abstract class User implements UserDetails {
     @NaturalId
     @Column(unique = true, updatable = false)
     protected String email;
+    @Column(name = "username")
+    protected String username;
 
     @Column(name = "password")
     protected String password;
