@@ -90,7 +90,11 @@ public class SecurityConfig {
                 .requestMatchers(
                         antMatcher("/h2-console/**"),
                         antMatcher("/auth/register/admin"),
-                        antMatcher("/auth/register/user")
+                        antMatcher("/auth/register/user"),
+                        antMatcher("/auth/login/admin"),
+                        antMatcher("/auth/login/user")
+
+
 
                 ));
     }

@@ -4,6 +4,7 @@ import com.example.satapp.users.Dto.PostCrearUserDto;
 import com.example.satapp.users.model.Administrador;
 import com.example.satapp.users.model.UserRoles;
 import com.example.satapp.users.model.Usuario;
+import com.example.satapp.users.repositorio.AdministradorRepo;
 import com.example.satapp.users.repositorio.UsuarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class UsuarioService {
     private final UsuarioRepo usuarioRepo;
     private final PasswordEncoder passwordEncoder;
+    private final AdministradorRepo administradorRepo;
 
 
     public Optional<Usuario> findById(UUID id){return usuarioRepo.findById(id);}
@@ -30,7 +32,7 @@ public class UsuarioService {
     }
 
     public  Usuario crearUsuario(PostCrearUserDto postCrearUserDto, EnumSet<UserRoles> userRoles){
-        if (usuarioRepo.existsByEmailIgnoreCase(postCrearUserDto.email())){
+        if (usuarioRepo.existsByEmailIgnoreCase(postCrearUserDto.email())||administradorRepo.existsByEmailIgnoreCase(postCrearUserDto.email())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El email ya ha sido registrado");
         }
         Usuario usuario = Usuario.builder()
@@ -41,7 +43,8 @@ public class UsuarioService {
                 .createdAt(LocalDateTime.now())
                 .dni(postCrearUserDto.dni())
                 .birthDate(postCrearUserDto.nacimiento())
-                .roles(userRoles)
+                .roles(EnumSet.of(UserRoles.USER))
+                .enabled(false)
                 .build();
        return usuarioRepo.save(usuario);
 
