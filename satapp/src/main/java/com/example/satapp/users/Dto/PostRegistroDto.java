@@ -19,6 +19,7 @@ public class PostRegistroDto  {
     String username;
     String email;
 
+
     LocalDateTime creadoen;
 
             public static PostRegistroDto Usuario(Usuario usuario){
