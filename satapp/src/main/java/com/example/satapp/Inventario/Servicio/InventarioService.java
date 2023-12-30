@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,16 @@ public class InventarioService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay inventariois disponibles");
         }else {
             return inventarioRepo.getlist();
+        }
+
+    }
+
+    public Optional<GetListinventario> finByNombre(String nombre){
+        Optional<GetListinventario> getListinventario = inventarioRepo.finByNombre(nombre);
+        if (getListinventario.isPresent()){
+            return inventarioRepo.finByNombre(nombre);
+        }else {
+            throw new RuntimeException("no existe");
         }
 
     }
