@@ -1,5 +1,6 @@
 package com.example.satapp.Inventario.Servicio;
 
+import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Estado;
 import com.example.satapp.Inventario.Model.Inventario;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +37,16 @@ public class InventarioService {
                     .build();
             return inventarioRepo.save(inventario);
         }
+    }
+
+    public List<GetListinventario> lidtarinventario(){
+        List<GetListinventario> getListinventarios = inventarioRepo.getlist();
+        if (getListinventarios.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay inventariois disponibles");
+        }else {
+            return inventarioRepo.getlist();
+        }
+
     }
 
 }
