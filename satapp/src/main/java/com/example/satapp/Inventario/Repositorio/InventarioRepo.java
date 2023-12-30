@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface InventarioRepo extends JpaRepository<Inventario, UUID> {
@@ -22,4 +23,19 @@ public interface InventarioRepo extends JpaRepository<Inventario, UUID> {
             from Inventario i
             """)
     List<GetListinventario> getlist();
+
+    @Query("""
+            select new com.example.satapp.Inventario.Dto.GetListinventario(
+            i.nombre,
+            i.modelo,
+            i.ubicacion,
+            i.descripcion,
+            i.precio
+            )
+            from Inventario i
+            where i.nombre = ?1
+            """)
+    Optional<GetListinventario> finByNombre(String nombre);
+
+
 }

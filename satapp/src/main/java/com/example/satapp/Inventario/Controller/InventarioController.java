@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -91,12 +92,87 @@ public class InventarioController {
         List<GetListinventario> inventarios = inventarioService.lidtarinventario();
         return ResponseEntity.ok(inventarios);
     }
-
+    @Operation(summary = "Listar un inventario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha listado",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "Computadora",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "ubicacion": "Oficina 301",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad request",
+                    content = @Content)
+    })
     @GetMapping("/administrador/listar/inventario")
     public ResponseEntity<List<GetListinventario>> findalladministrador(){
 
         List<GetListinventario> inventarios = inventarioService.lidtarinventario();
         return ResponseEntity.ok(inventarios);
+    }
+    @Operation(summary = "Buscar un inventario por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el nombre del inventario",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "Computadora",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "ubicacion": "Oficina 301",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("usuario/buscar/{nombre}")
+    public ResponseEntity<Optional<GetListinventario>> findByNombre(@RequestParam String nombre){
+        Optional<GetListinventario> getListinventario = inventarioService.finByNombre(nombre);
+        return ResponseEntity.ok(getListinventario);
+    }
+    @Operation(summary = "Buscar un inventario por su nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el nombre del inventario",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "Computadora",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "ubicacion": "Oficina 301",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/administrador/buscar/{nombre}")
+    public ResponseEntity<Optional<GetListinventario>> findByNombreAdminsitrador(@PathVariable String nombre){
+        Optional<GetListinventario> getListinventario = inventarioService.finByNombre(nombre);
+        return ResponseEntity.ok(getListinventario);
     }
 
 }
