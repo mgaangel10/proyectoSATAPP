@@ -46,8 +46,7 @@ public class Inventario {
     @Column(name = "precio")
     private double precio;
 
-    @Column(name = "responsable")
-    private String Responsable;
+
 
     @Column(name = "fecha_Registro")
     private LocalDateTime fechaRegistro;

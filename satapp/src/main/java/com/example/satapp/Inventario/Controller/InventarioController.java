@@ -1,5 +1,6 @@
 package com.example.satapp.Inventario.Controller;
 
+import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Inventario.Servicio.InventarioService;
@@ -11,14 +12,15 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,6 +62,41 @@ public class InventarioController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+    @Operation(summary = "Listar un inventario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha listado",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "Computadora",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "ubicacion": "Oficina 301",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/usuario/listar/inventario")
+    public ResponseEntity<List<GetListinventario>> findall(){
+
+        List<GetListinventario> inventarios = inventarioService.lidtarinventario();
+        return ResponseEntity.ok(inventarios);
+    }
+
+    @GetMapping("/administrador/listar/inventario")
+    public ResponseEntity<List<GetListinventario>> findalladministrador(){
+
+        List<GetListinventario> inventarios = inventarioService.lidtarinventario();
+        return ResponseEntity.ok(inventarios);
     }
 
 }
