@@ -4,6 +4,7 @@ import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Inventario.Model.Tipo;
+import com.example.satapp.Inventario.Model.Ubicaciones;
 import com.example.satapp.Inventario.Servicio.InventarioService;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -204,6 +205,34 @@ public class InventarioController {
         List<GetListinventario> getListinventarios =inventarioService.findPorTipos(tipo);
         return ResponseEntity.ok(getListinventarios);
 
+    }
+    @Operation(summary = "Listar por ubicaciones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha listado por ubicaciones",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "monitor",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "tipo": "MONITOR",
+                                                       "ubicaciones": "OFICINAS",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/administrador/buscar/ubicaciones/{ubi}")
+    public ResponseEntity<List<GetListinventario>> findporUbicaciones(@PathVariable Ubicaciones ubi){
+        List<GetListinventario> getListinventarios = inventarioService.findPorUbicaiones(ubi);
+        return ResponseEntity.ok(getListinventarios);
     }
 
 }
