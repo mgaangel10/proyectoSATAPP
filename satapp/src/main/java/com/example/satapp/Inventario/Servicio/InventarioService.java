@@ -91,4 +91,31 @@ public class InventarioService {
 
     }
 
+    public Inventario editarInventario(String nombre,PostCrearInventarioDTO postCrearInventarioDTO){
+        if (inventarioRepo.existsByNombreIgnoreCase(nombre)){
+            Ubicaciones ubicaciones = Ubicaciones.valueOf(postCrearInventarioDTO.ubicaciones().toUpperCase());
+            if (ubicaciones==null){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
+            }
+            Tipo tipoEnum = Tipo.valueOf(postCrearInventarioDTO.tipo().toUpperCase());
+            if (tipoEnum == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
+            }
+
+            Inventario inventario = Inventario.builder()
+                    .nombre(postCrearInventarioDTO.nombre())
+                    .modelo(postCrearInventarioDTO.modelo())
+                    .descripcion(postCrearInventarioDTO.descripcion())
+                    .fechaCompra(LocalDate.now())
+                    .tipos(EnumSet.of(tipoEnum))
+                    .ubicaciones(EnumSet.of(ubicaciones))
+                    .precio(postCrearInventarioDTO.precio())
+                    .fechaRegistro(LocalDateTime.now())
+                    .build();
+            return inventarioRepo.save(inventario);
+        }else {
+            throw new RuntimeException("no se han encontrado el nombre del inventario");
+        }
+    }
+
 }
