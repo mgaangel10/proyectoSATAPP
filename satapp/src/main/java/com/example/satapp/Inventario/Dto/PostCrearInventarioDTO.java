@@ -11,6 +11,7 @@ public record PostCrearInventarioDTO(String id,
                                      String descripcion,
                                      LocalDate fechaCompra,
                                      double precio,
-                                     LocalDateTime fechaRegistro
+                                     LocalDateTime fechaRegistro,
+                                     String tipo
                                       ){
 }

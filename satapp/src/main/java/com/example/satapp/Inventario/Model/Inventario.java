@@ -11,6 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -46,7 +47,9 @@ public class Inventario {
     @Column(name = "precio")
     private double precio;
 
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Tipo> tipos;
 
     @Column(name = "fecha_Registro")
     private LocalDateTime fechaRegistro;

@@ -3,6 +3,7 @@ package com.example.satapp.Inventario.Controller;
 import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Inventario;
+import com.example.satapp.Inventario.Model.Tipo;
 import com.example.satapp.Inventario.Servicio.InventarioService;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -173,6 +174,36 @@ public class InventarioController {
     public ResponseEntity<Optional<GetListinventario>> findByNombreAdminsitrador(@PathVariable String nombre){
         Optional<GetListinventario> getListinventario = inventarioService.finByNombre(nombre);
         return ResponseEntity.ok(getListinventario);
+    }
+    @Operation(summary = "Listar por tipos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha listado por tipos",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       "nombre": "monitor",
+                                                       "modelo": "HP EliteBook 840 G6",
+                                                       "ubicacion": "Oficina 301",
+                                                       "descripcion": "Laptop para desarrollo con 16GB RAM y 512GB SSD",
+                                                       "tipo": "MONITOR",
+                                                       "precio": 1200.0
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/administrador/buscar/tipos/{tipo}")
+    public ResponseEntity<List<GetListinventario>> findByTipos(@PathVariable Tipo tipo){
+
+        List<GetListinventario> getListinventarios =inventarioService.findPorTipos(tipo);
+        return ResponseEntity.ok(getListinventarios);
+
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Estado;
 import com.example.satapp.Inventario.Model.Inventario;
+import com.example.satapp.Inventario.Model.Tipo;
 import com.example.satapp.Inventario.Repositorio.InventarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,11 @@ public class InventarioService {
         if (inventarioRepo.existsByNombreIgnoreCase(postCrearInventarioDTO.nombre())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El nombre del inventario ya existe");
         }else {
+            Tipo tipoEnum = Tipo.valueOf(postCrearInventarioDTO.tipo().toUpperCase());
+            if (tipoEnum == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
+            }
+
             Inventario inventario = Inventario.builder()
                     .nombre(postCrearInventarioDTO.nombre())
                     .modelo(postCrearInventarioDTO.modelo())
@@ -33,6 +39,7 @@ public class InventarioService {
 
                     .descripcion(postCrearInventarioDTO.descripcion())
                     .fechaCompra(LocalDate.now())
+                    .tipos(EnumSet.of(tipoEnum))
                     .precio(postCrearInventarioDTO.precio())
                     .fechaRegistro(LocalDateTime.now())
                     .build();
@@ -56,6 +63,16 @@ public class InventarioService {
             return inventarioRepo.finByNombre(nombre);
         }else {
             throw new RuntimeException("no existe");
+        }
+
+    }
+
+    public List<GetListinventario> findPorTipos(Tipo tipo){
+        List<GetListinventario> getListinventarios = inventarioRepo.getlistPorTipos(tipo);
+        if (getListinventarios.isEmpty()){
+            throw new RuntimeException("no se ha encontrado el inventario por el tipo "+tipo);
+        }else {
+            return inventarioRepo.getlistPorTipos(tipo);
         }
 
     }
