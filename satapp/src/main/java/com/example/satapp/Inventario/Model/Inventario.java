@@ -32,8 +32,7 @@ public class Inventario {
     @Column(name = "modelo")
     private String modelo;
 
-    @Column(name = "ubicacion")
-    private String ubicacion;
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     private EnumSet<Estado> estados;
@@ -50,6 +49,10 @@ public class Inventario {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Tipo> tipos;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Ubicaciones> ubicaciones;
 
     @Column(name = "fecha_Registro")
     private LocalDateTime fechaRegistro;

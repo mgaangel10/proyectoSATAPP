@@ -5,6 +5,7 @@ import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
 import com.example.satapp.Inventario.Model.Estado;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Inventario.Model.Tipo;
+import com.example.satapp.Inventario.Model.Ubicaciones;
 import com.example.satapp.Inventario.Repositorio.InventarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,10 @@ public class InventarioService {
         if (inventarioRepo.existsByNombreIgnoreCase(postCrearInventarioDTO.nombre())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El nombre del inventario ya existe");
         }else {
+            Ubicaciones ubicaciones = Ubicaciones.valueOf(postCrearInventarioDTO.ubicaciones().toUpperCase());
+            if (ubicaciones==null){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
+            }
             Tipo tipoEnum = Tipo.valueOf(postCrearInventarioDTO.tipo().toUpperCase());
             if (tipoEnum == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
@@ -35,11 +40,10 @@ public class InventarioService {
             Inventario inventario = Inventario.builder()
                     .nombre(postCrearInventarioDTO.nombre())
                     .modelo(postCrearInventarioDTO.modelo())
-                    .ubicacion(postCrearInventarioDTO.ubicacion())
-
                     .descripcion(postCrearInventarioDTO.descripcion())
                     .fechaCompra(LocalDate.now())
                     .tipos(EnumSet.of(tipoEnum))
+                    .ubicaciones(EnumSet.of(ubicaciones))
                     .precio(postCrearInventarioDTO.precio())
                     .fechaRegistro(LocalDateTime.now())
                     .build();
@@ -73,6 +77,16 @@ public class InventarioService {
             throw new RuntimeException("no se ha encontrado el inventario por el tipo "+tipo);
         }else {
             return inventarioRepo.getlistPorTipos(tipo);
+        }
+
+    }
+
+    public List<GetListinventario> findPorUbicaiones(Ubicaciones ubicaciones){
+        List<GetListinventario> getListinventarios = inventarioRepo.getlistPorubicaciones(ubicaciones);
+        if (getListinventarios.isEmpty()){
+            throw new RuntimeException("no se ha encontrado el inventario por el tipo "+ubicaciones);
+        }else {
+            return inventarioRepo.getlistPorubicaciones(ubicaciones);
         }
 
     }
