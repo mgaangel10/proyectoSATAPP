@@ -234,5 +234,41 @@ public class InventarioController {
         List<GetListinventario> getListinventarios = inventarioService.findPorUbicaiones(ubi);
         return ResponseEntity.ok(getListinventarios);
     }
+    @Operation(summary = "Editar inventario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha editado el inventario",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        "id": "fdacefd1-fe92-4a9e-9dac-edfd53a61fd2",
+                                                                           "nombre": "impresoraa",
+                                                                           "modelo": "HP EliteBook 840 G6",
+                                                                           "estados": null,
+                                                                           "descripcion": "Laptop para desarrollo con 16GB RAM y 5",
+                                                                           "fechaCompra": "2023-12-31",
+                                                                           "precio": 1200.0,
+                                                                           "tipos": [
+                                                                               "MONITOR"
+                                                                           ],
+                                                                           "ubicaciones": [
+                                                                               "ATICO"
+                                                                           ],
+                                                                           "fechaRegistro": "2023-12-31T19:22:21.5041259"
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @PutMapping("/administrador/edit/{nombre}")
+    public ResponseEntity<?> editarInventario(@PathVariable String nombre,@RequestBody  PostCrearInventarioDTO postCrearInventarioDTO){
+        Inventario inventario = inventarioService.editarInventario(nombre,postCrearInventarioDTO);
+        return  ResponseEntity.ok(inventario);
+    }
 
 }
