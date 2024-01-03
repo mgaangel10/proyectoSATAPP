@@ -271,5 +271,29 @@ public class InventarioController {
         return  ResponseEntity.ok(inventario);
     }
 
+    @Operation(summary = "Eliminar un inventario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Se ha eliminado el inventario",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @DeleteMapping("/administrador/eliminar/{nombre}")
+    public ResponseEntity<?> elimarInventario(@PathVariable String nombre){
+        inventarioService.eliminarInventario(nombre);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

@@ -119,6 +119,15 @@ public class InventarioService {
         }
     }
 
+    public void eliminarInventario(String nombre) {
+        Optional<Inventario> inventarioOptional = inventarioRepo.findByNombreIgnoreCase(nombre);
+        if (inventarioOptional.isPresent()) {
+            inventarioRepo.delete(inventarioOptional.get());
+        } else {
+            throw new RuntimeException("No se encuentra el nombre del inventario");
+        }
+    }
+
 
 
 
