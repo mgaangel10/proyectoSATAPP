@@ -13,6 +13,7 @@ import java.util.UUID;
 
 public interface InventarioRepo extends JpaRepository<Inventario, UUID> {
     boolean existsByNombreIgnoreCase(String nombre);
+    Optional<Inventario> findByNombreIgnoreCase(String nombre);
 
     @Query("""
             select new com.example.satapp.Inventario.Dto.GetListinventario(

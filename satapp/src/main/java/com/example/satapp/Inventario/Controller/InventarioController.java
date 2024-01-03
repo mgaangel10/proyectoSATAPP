@@ -271,4 +271,5 @@ public class InventarioController {
         return  ResponseEntity.ok(inventario);
     }
 
+
 }
