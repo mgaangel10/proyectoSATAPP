@@ -92,7 +92,8 @@ public class InventarioService {
     }
 
     public Inventario editarInventario(String nombre,PostCrearInventarioDTO postCrearInventarioDTO){
-        if (inventarioRepo.existsByNombreIgnoreCase(nombre)){
+        Optional<Inventario> inventario = inventarioRepo.findByNombreIgnoreCase(nombre);
+        if (inventario.isPresent()){
             Ubicaciones ubicaciones = Ubicaciones.valueOf(postCrearInventarioDTO.ubicaciones().toUpperCase());
             if (ubicaciones==null){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
@@ -102,20 +103,23 @@ public class InventarioService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
             }
 
-            Inventario inventario = Inventario.builder()
-                    .nombre(postCrearInventarioDTO.nombre())
-                    .modelo(postCrearInventarioDTO.modelo())
-                    .descripcion(postCrearInventarioDTO.descripcion())
-                    .fechaCompra(LocalDate.now())
-                    .tipos(EnumSet.of(tipoEnum))
-                    .ubicaciones(EnumSet.of(ubicaciones))
-                    .precio(postCrearInventarioDTO.precio())
-                    .fechaRegistro(LocalDateTime.now())
-                    .build();
-            return inventarioRepo.save(inventario);
+
+            return inventario.map(i->{
+                i.setNombre(postCrearInventarioDTO.nombre());
+                i.setModelo(postCrearInventarioDTO.modelo());
+                i.setDescripcion(postCrearInventarioDTO.descripcion());
+                i.setFechaCompra(postCrearInventarioDTO.fechaCompra());
+                i.setTipos(EnumSet.of(tipoEnum));
+                i.setUbicaciones(EnumSet.of(ubicaciones));
+                i.setPrecio(postCrearInventarioDTO.precio());
+                return inventarioRepo.save(i);
+            }).orElse(null);
         }else {
             throw new RuntimeException("no se han encontrado el nombre del inventario");
         }
     }
+
+
+
 
 }

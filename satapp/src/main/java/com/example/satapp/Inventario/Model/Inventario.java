@@ -35,7 +35,8 @@ public class Inventario {
 
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private EnumSet<Estado> estados;
+    @Enumerated(EnumType.STRING)
+    private Set<Estado> estados;
 
     @Column(name = "descripcion")
     private String descripcion;
