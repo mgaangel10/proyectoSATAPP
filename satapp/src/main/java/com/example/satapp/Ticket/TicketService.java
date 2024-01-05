@@ -2,6 +2,7 @@ package com.example.satapp.Ticket;
 
 import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.Repositorio.TicketRepo;
+import com.example.satapp.Ticket.dto.GetListTicketsDto;
 import com.example.satapp.Ticket.dto.PostCrearTicketDto;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import com.example.satapp.users.Dto.PostLogin;
@@ -9,8 +10,10 @@ import com.example.satapp.users.model.Usuario;
 import com.example.satapp.users.repositorio.UsuarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +40,15 @@ public class TicketService {
 
 
         return ticketRepo.save(ticket);
+    }
+    public List<GetListTicketsDto> listarTodo(){
+
+        List<GetListTicketsDto> getListTicketsDtos = ticketRepo.getlist();
+        if (getListTicketsDtos.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay inventariois disponibles");
+        }else {
+            return ticketRepo.getlist();
+        }
     }
 
     public Ticket editarTicket(String nombre,PostCrearTicketDto postCrearTicketDto){
