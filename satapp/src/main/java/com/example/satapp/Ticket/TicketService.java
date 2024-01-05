@@ -4,6 +4,7 @@ import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.Repositorio.TicketRepo;
 import com.example.satapp.Ticket.dto.GetListTicketsDto;
 import com.example.satapp.Ticket.dto.PostCrearTicketDto;
+import com.example.satapp.Ticket.dto.PutAsignarTecnico;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import com.example.satapp.users.Dto.PostLogin;
 import com.example.satapp.users.model.Usuario;
@@ -41,9 +42,9 @@ public class TicketService {
 
         return ticketRepo.save(ticket);
     }
-    public List<GetListTicketsDto> listarTodo(){
+    public List<PutAsignarTecnico> listarTodo(){
 
-        List<GetListTicketsDto> getListTicketsDtos = ticketRepo.getlist();
+        List<PutAsignarTecnico> getListTicketsDtos = ticketRepo.getlist();
         if (getListTicketsDtos.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay tickets disponibles");
         }else {
@@ -66,6 +67,21 @@ public class TicketService {
         }
 
 
+    }
+    public Ticket asignarTecnico(String nombre, PutAsignarTecnico putAsignarTecnico){
+        Optional<Ticket> ticket = ticketRepo.findByNombreIgnoreCase(nombre);
+        if (ticket.isPresent()){
+            return ticket.map(t->{
+                t.setNombre(putAsignarTecnico.nombre());
+                t.setDescripcion(putAsignarTecnico.descripcion());
+                t.setDispositivo(putAsignarTecnico.dispositivo());
+                t.setEstado(putAsignarTecnico.estado());
+                t.setNombreTecnico(putAsignarTecnico.nombreTecnico());
+                return ticketRepo.save(t);
+            }).orElse(null);
+        }{
+            throw new RuntimeException("El ticket no se ha sido encontrado");
+        }
     }
 
     public Optional<Ticket> buscarPorNombre(String nombre){

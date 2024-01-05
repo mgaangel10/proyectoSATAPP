@@ -35,6 +35,9 @@ public class Ticket {
     @Column(name = "estado")
     private String estado;
 
+    @Column(name = "tecnico")
+    private String nombreTecnico;
+
 
 
 
