@@ -10,8 +10,8 @@ import lombok.Builder;
 public record PostCrearTicketDto(String nombre,
                                  String descripcion,
                                  String dispositivo,
-                                 String estado,
-                                 String nombreUsuario
+                                 String estado
+
 
 
 ) {

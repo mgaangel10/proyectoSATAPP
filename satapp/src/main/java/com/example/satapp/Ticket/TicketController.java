@@ -1,6 +1,7 @@
 package com.example.satapp.Ticket;
 
 import com.example.satapp.Ticket.Model.Ticket;
+import com.example.satapp.Ticket.dto.GetListTicketsDto;
 import com.example.satapp.Ticket.dto.PostCrearTicketDto;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import com.example.satapp.users.Dto.PostLogin;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,6 +75,34 @@ public class TicketController {
     public ResponseEntity<?> editarTicket(@PathVariable String nombre,@RequestBody PostCrearTicketDto postCrearTicketDto){
         Ticket ticket = ticketService.editarTicket(nombre,postCrearTicketDto);
         return ResponseEntity.ok(ticket);
+    }
+    @Operation(summary = "listar los tickets")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha listado los tickets",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       {
+                                                                     "nombre": "hola.2",
+                                                                     "descripcion": "hola hola hola",
+                                                                     "dispositivo": "HP EliteBook 840 G6",
+                                                                     "estado": "general"
+                                                                                                                                 }
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/administrador/listar/tickets")
+    public ResponseEntity<List<GetListTicketsDto>> listarTodo(){
+        List<GetListTicketsDto> getListTicketsDtos = ticketService.listarTodo();
+        return ResponseEntity.ok(getListTicketsDtos);
     }
 
 }
