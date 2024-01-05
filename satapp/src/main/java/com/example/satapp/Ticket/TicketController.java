@@ -17,12 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class TicketController {
 
     private final TicketService ticketService;
+
     @Operation(summary = "crear un ticket")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -49,6 +51,7 @@ public class TicketController {
         Ticket ticket = ticketService.crearTicket(postCrearTicketDto);
         return ResponseEntity.ok(ticket);
     }
+
     @Operation(summary = "editar un ticket")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
@@ -72,10 +75,11 @@ public class TicketController {
                     content = @Content)
     })
     @PutMapping("usuario/editar/{nombre}")
-    public ResponseEntity<?> editarTicket(@PathVariable String nombre,@RequestBody PostCrearTicketDto postCrearTicketDto){
-        Ticket ticket = ticketService.editarTicket(nombre,postCrearTicketDto);
+    public ResponseEntity<?> editarTicket(@PathVariable String nombre, @RequestBody PostCrearTicketDto postCrearTicketDto) {
+        Ticket ticket = ticketService.editarTicket(nombre, postCrearTicketDto);
         return ResponseEntity.ok(ticket);
     }
+
     @Operation(summary = "listar los tickets")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -100,9 +104,37 @@ public class TicketController {
                     content = @Content)
     })
     @GetMapping("/administrador/listar/tickets")
-    public ResponseEntity<List<GetListTicketsDto>> listarTodo(){
+    public ResponseEntity<List<GetListTicketsDto>> listarTodo() {
         List<GetListTicketsDto> getListTicketsDtos = ticketService.listarTodo();
         return ResponseEntity.ok(getListTicketsDtos);
+    }
+    @Operation(summary = "buscar ticket por nombre")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha buscado por nombre los tickets",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       {
+                                                                     "nombre": "hola.2",
+                                                                     "descripcion": "hola hola hola",
+                                                                     "dispositivo": "HP EliteBook 840 G6",
+                                                                     "estado": "general"
+                                                                                                                                 }
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @GetMapping("/administrador/buscar/ticket/{nombre}")
+    public ResponseEntity<Optional<Ticket>> buscarTicketPorNombre(@PathVariable String nombre){
+        Optional<Ticket> ticket = ticketService.buscarPorNombre(nombre);
+        return ResponseEntity.ok(ticket);
     }
 
 }
