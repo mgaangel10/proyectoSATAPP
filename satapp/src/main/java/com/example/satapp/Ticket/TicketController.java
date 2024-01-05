@@ -3,6 +3,7 @@ package com.example.satapp.Ticket;
 import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.dto.GetListTicketsDto;
 import com.example.satapp.Ticket.dto.PostCrearTicketDto;
+import com.example.satapp.Ticket.dto.PutAsignarTecnico;
 import com.example.satapp.users.Dto.PostCrearUserDto;
 import com.example.satapp.users.Dto.PostLogin;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.desktop.UserSessionEvent;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,8 +106,8 @@ public class TicketController {
                     content = @Content)
     })
     @GetMapping("/administrador/listar/tickets")
-    public ResponseEntity<List<GetListTicketsDto>> listarTodo() {
-        List<GetListTicketsDto> getListTicketsDtos = ticketService.listarTodo();
+    public ResponseEntity<List<PutAsignarTecnico>> listarTodo() {
+        List<PutAsignarTecnico> getListTicketsDtos = ticketService.listarTodo();
         return ResponseEntity.ok(getListTicketsDtos);
     }
     @Operation(summary = "buscar ticket por nombre")
@@ -134,6 +136,36 @@ public class TicketController {
     @GetMapping("/administrador/buscar/ticket/{nombre}")
     public ResponseEntity<Optional<Ticket>> buscarTicketPorNombre(@PathVariable String nombre){
         Optional<Ticket> ticket = ticketService.buscarPorNombre(nombre);
+        return ResponseEntity.ok(ticket);
+    }
+
+    @Operation(summary = "Asignar ticket a un tecnico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha asignado el ticket a un tecnico",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                       {
+                                                                   "nombre": "hola",
+                                                                    "descripcion": "hola hola hola",
+                                                                    "dispositivo": "HP EliteBook 840 G6",
+                                                                    "estado": "general",
+                                                                    "nombreTecnico": "admin"
+                                                                                                                                 }
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @PutMapping("/administrador/asignar/ticket/{nombre}")
+    public ResponseEntity<?> asignarTecnico(@PathVariable String nombre, @RequestBody PutAsignarTecnico putAsignarTecnico){
+        Ticket ticket = ticketService.asignarTecnico(nombre,putAsignarTecnico);
         return ResponseEntity.ok(ticket);
     }
 

@@ -4,6 +4,7 @@ import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.dto.GetListTicketsDto;
+import com.example.satapp.Ticket.dto.PutAsignarTecnico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,15 +17,16 @@ public interface TicketRepo extends JpaRepository<Ticket, UUID> {
     Optional<Ticket> findByNombreIgnoreCase(String nombre);
 
     @Query("""
-            select new com.example.satapp.Ticket.dto.GetListTicketsDto(
+            select new com.example.satapp.Ticket.dto.PutAsignarTecnico(
             t.nombre,
             t.descripcion,
             t.estado,
-            t.dispositivo
+            t.dispositivo,
+            t.nombreTecnico
             
             )
             from Ticket t
             """)
-    List<GetListTicketsDto> getlist();
+    List<PutAsignarTecnico> getlist();
 
 }
