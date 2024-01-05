@@ -7,7 +7,8 @@ import com.example.satapp.users.model.User;
 import com.example.satapp.users.model.Usuario;
 import lombok.Builder;
 
-public record PostCrearTicketDto(String descripcion,
+public record PostCrearTicketDto(String nombre,
+                                 String descripcion,
                                  String dispositivo,
                                  String estado,
                                  String nombreUsuario

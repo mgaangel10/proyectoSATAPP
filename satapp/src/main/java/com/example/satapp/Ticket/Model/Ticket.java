@@ -23,6 +23,9 @@ public class Ticket {
     @GenericGenerator(name = "UUID",type = org.hibernate.id.UUIDGenerator.class)
     private UUID id;
 
+    @Column(name = "nombre")
+    private String nombre;
+
     @Column(name = "descripcion")
     private String descripcion;
 
