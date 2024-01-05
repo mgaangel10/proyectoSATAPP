@@ -1,9 +1,7 @@
 package com.example.satapp.users.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import com.example.satapp.Ticket.Model.Ticket;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -26,5 +24,9 @@ public class Usuario extends User {
     private List<Usuario> usuarios = new ArrayList<>();
     @ManyToMany(mappedBy = "usuarios")
     private List<Usuario> inChargeof;
+
+
+
+
 
 }

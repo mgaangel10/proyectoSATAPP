@@ -62,7 +62,7 @@ public class AdministradorService {
     }
 
     public void setearEneable (String email){
-        Optional<Usuario> usuario = usuarioRepo.findByEmail(email);
+        Optional<Usuario> usuario = usuarioRepo.findFirstByEmail(email);
         if (usuario.isPresent()){
             Usuario usuario1 = usuario.get();
             usuario1.setEnabled(true);
