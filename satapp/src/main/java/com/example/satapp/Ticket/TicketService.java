@@ -28,6 +28,7 @@ public class TicketService {
     public Ticket crearTicket(PostCrearTicketDto postCrearTicketDto) {
 
         Ticket ticket = Ticket.builder()
+                .nombre(postCrearTicketDto.nombre())
                 .descripcion(postCrearTicketDto.descripcion())
                 .estado(postCrearTicketDto.estado())
                 .dispositivo(postCrearTicketDto.dispositivo())
@@ -36,6 +37,23 @@ public class TicketService {
 
 
         return ticketRepo.save(ticket);
+    }
+
+    public Ticket editarTicket(String nombre,PostCrearTicketDto postCrearTicketDto){
+        Optional<Ticket> ticket = ticketRepo.findByNombreIgnoreCase(nombre);
+        if (ticket.isPresent()){
+            return ticket.map(t->{
+                t.setNombre(postCrearTicketDto.nombre());
+                t.setDescripcion(postCrearTicketDto.descripcion());
+                t.setDispositivo(postCrearTicketDto.dispositivo());
+                t.setEstado(postCrearTicketDto.estado());
+                return ticketRepo.save(t);
+            }).orElse(null);
+        }else {
+            throw new RuntimeException("El ticket no se ha sido encontrado");
+        }
+
+
     }
 
 }
