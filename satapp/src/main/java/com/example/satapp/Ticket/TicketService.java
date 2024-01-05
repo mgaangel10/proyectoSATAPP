@@ -45,7 +45,7 @@ public class TicketService {
 
         List<GetListTicketsDto> getListTicketsDtos = ticketRepo.getlist();
         if (getListTicketsDtos.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay inventariois disponibles");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay tickets disponibles");
         }else {
             return ticketRepo.getlist();
         }
@@ -66,6 +66,15 @@ public class TicketService {
         }
 
 
+    }
+
+    public Optional<Ticket> buscarPorNombre(String nombre){
+        Optional<Ticket> ticket = ticketRepo.findByNombreIgnoreCase(nombre);
+        if (ticket.isPresent()){
+            return ticketRepo.findByNombreIgnoreCase(nombre);
+        }else {
+            throw new RuntimeException("no se han encontrado nun ticket");
+        }
     }
 
 }
