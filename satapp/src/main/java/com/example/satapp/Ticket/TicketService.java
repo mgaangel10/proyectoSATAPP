@@ -93,6 +93,15 @@ public class TicketService {
         }
     }
 
+    public void elimarTicket(String nombre){
+        Optional<Ticket> ticket = ticketRepo.findByNombreIgnoreCase(nombre);
+        if (ticket.isPresent()){
+            ticketRepo.delete(ticket.get());
+        }else {
+            throw new RuntimeException("No se enciuentra el ticket");
+        }
+    }
+
 }
 
 
