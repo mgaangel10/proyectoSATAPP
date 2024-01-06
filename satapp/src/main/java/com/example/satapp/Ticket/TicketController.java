@@ -168,5 +168,28 @@ public class TicketController {
         Ticket ticket = ticketService.asignarTecnico(nombre,putAsignarTecnico);
         return ResponseEntity.ok(ticket);
     }
+    @Operation(summary = "Eliminar un ticket")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Se ha eliminado el ticket",
+                    content = {@Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = PostCrearUserDto.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        
+                                                    },
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "401",
+                    description = "Bad request",
+                    content = @Content)
+    })
+    @DeleteMapping("/usuario/eliminar/ticket/{nombre}")
+    public ResponseEntity<?> eliminarTicket(@PathVariable String nombre){
+        ticketService.elimarTicket(nombre);
+       return ResponseEntity.noContent().build();
+    }
 
 }
