@@ -1,0 +1,550 @@
+{
+	"info": {
+		"_postman_id": "71048018-2c9f-442a-b16a-b9c3c9d083fd",
+		"name": "Satapp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30102197"
+	},
+	"item": [
+		{
+			"name": "Registro",
+			"item": [
+				{
+					"name": "registro admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"perez@gmail.cm\",\r\n    \"password\":\"1234\",\r\n    \"name\":\"aa\",\r\n    \"lastName\":\"perez\",\r\n    \"dni\":\"216252B\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/auth/register/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"auth",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registro user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"perez@gmail.cm\",\r\n    \"password\":\"1234\",\r\n    \"name\":\"aa\",\r\n    \"lastName\":\"perez\",\r\n    \"dni\":\"216252B\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/auth/register/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"auth",
+								"register",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/auth/login/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"auth",
+								"login",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"perez@gmail.cm\",\r\n    \"password\":\"1234\"\r\n    \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/auth/login/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"auth",
+								"login",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activar usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/activar/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"activar",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar usuarios registrados",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "inventario",
+			"item": [
+				{
+					"name": "crear inventario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0N2U3ZmNiZS1jMTFmLTQ3YTEtYWM3My1jNjRlMDAzOThhZGMiLCJpYXQiOjE3MDM5NjY4MTR9.rrMBw6nwrPMPHUO2AHHEg0Bie20J24VUP0OXpq5qk8vpmQjA-rWVwiJsqZn4u5qDI16b8bwy9Rd9eanjOELOEA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Computadora\",\r\n  \"modelo\": \"HP EliteBook 840 G6\",\r\n  \"ubicacion\": \"Oficina 301\",\r\n  \"descripcion\": \"Laptop para desarrollo con 16GB RAM y 512GB SSD\",\r\n  \"fechaCompra\": \"2022-01-15\",\r\n  \"precio\": 1200.00\r\n  \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/administrador/crear/inventario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"crear",
+								"inventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar Inventario usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjNDVlZTUyYi1hNjI0LTRjZTMtOWZkZS0xNjM5ZjIwM2Q0OTYiLCJpYXQiOjE3MDQwNDQxNzB9.cNTUpvFzvKE3q3bAfyj9mcmLSvE7AvjWHhzUJm2eUp8A1oOorUTgbh_ZBVQvDdNTFErNk1OyxvUMGVdGs6ggQg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/usuario/listar/inventario?Authorization=Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjNDVlZTUyYi1hNjI0LTRjZTMtOWZkZS0xNjM5ZjIwM2Q0OTYiLCJpYXQiOjE3MDQwNDQxNzB9.cNTUpvFzvKE3q3bAfyj9mcmLSvE7AvjWHhzUJm2eUp8A1oOorUTgbh_ZBVQvDdNTFErNk1OyxvUMGVdGs6ggQg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"usuario",
+								"listar",
+								"inventario"
+							],
+							"query": [
+								{
+									"key": "Authorization",
+									"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjNDVlZTUyYi1hNjI0LTRjZTMtOWZkZS0xNjM5ZjIwM2Q0OTYiLCJpYXQiOjE3MDQwNDQxNzB9.cNTUpvFzvKE3q3bAfyj9mcmLSvE7AvjWHhzUJm2eUp8A1oOorUTgbh_ZBVQvDdNTFErNk1OyxvUMGVdGs6ggQg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar inventario admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OWZjMjBjMC1kM2FkLTQzYmMtOWUwMi03NzFhYjBiMWVmYzYiLCJpYXQiOjE3MDQwNDUwNzB9.a94gG1nO5UNo0GIkQVi__nkUiPhgN6WJ7oXcnUmdFQFUQX3LQ9fyhi5NmYtwmsFLaXm8EYj4Vh8IEQCIjFmuvg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/administrador/listar/inventario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"listar",
+								"inventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName Inventario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxYzEyYmVlMi04NWYyLTQ3YTYtODI2OS1hMmNmNmZkMDdhYzIiLCJpYXQiOjE3MDQwNDcxOTh9.EVrdI8NSCBX6XDpZKdn8WpPZgMDtkT6pUIvupS0JxKgJCi08CDYbzzcYqr7KbJHy6UqCH90wt4k5mdYJEA3DyQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/administrador/buscar/Computadora",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"buscar",
+								"Computadora"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por tipos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxYTFlZjZmOC04MmYyLTQ0MTYtODkwYi1mMWZkYWZhOGNiYjUiLCJpYXQiOjE3MDQxMjc5MzZ9.7RLG07nijZaXsHdHyLftPcbyfUJID_v2sFKJ9iX-S603K0kAOHHZszSW4JEQcT_4GVIo0gMXSnXiQ7XkNGFVRg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/administrador/listar/inventario?",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"listar",
+								"inventario"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por ubicasciones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3OWZjMjBjMC1kM2FkLTQzYmMtOWUwMi03NzFhYjBiMWVmYzYiLCJpYXQiOjE3MDQwNDUwNzB9.a94gG1nO5UNo0GIkQVi__nkUiPhgN6WJ7oXcnUmdFQFUQX3LQ9fyhi5NmYtwmsFLaXm8EYj4Vh8IEQCIjFmuvg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/administrador/buscar/ubicaciones/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"buscar",
+								"ubicaciones",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar Inventario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNjRjNGFhZi1jNDBjLTRmODgtOTAyMS1lYmUyODA1ODVjZTgiLCJpYXQiOjE3MDQxMzEwNjN9.APtxrXIAWKo349jieIfBMfjsu7E4QxdzoXU1fxhwmadVGVD7QhFKhiZtmVQtPhe71YyHzLFmjx6ttphwjyz2tQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000administrador/edit/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000administrador",
+							"path": [
+								"edit",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar inventario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/administrador/eliminar/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"eliminar",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ticket",
+			"item": [
+				{
+					"name": "crear ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0ODhkZTU5NS1mMDc3LTQ3MTMtYmZkNS1mMzYyY2FmYmY2NWQiLCJpYXQiOjE3MDQ0NzI0Nzh9.geLwX667pw_VczAE1sanfcEWxJgu6rl2XOL8HAFlMb9wYpJuon1-qvTGXERE1AojLG_hpjgqE7sFLvy7YuuNFA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dispositivo\": \"general\",\r\n  \"descripcion\": \"hola hola hola\",\r\n  \"estado\": \"HP EliteBook 840 G6\",\r\n  \"nombreUsuario\": \"null\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/usuario/crear/ticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"usuario",
+								"crear",
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar ticket usuario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlZDlkOGI3Ni1lYmNiLTRhY2MtOGI0NS1hZTA0YjNkMjZhZWUiLCJpYXQiOjE3MDQ1NTYwNTZ9.xXVUvCEgZLpPuCaO-Er3zyRYtOIYwVsW0y0ihrlZgVpd0JxutCp8OITja8XP4-K9CpXYEzQDtsAd1f015CWoPQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"hola.2\",\r\n  \"dispositivo\": \"general\",\r\n  \"descripcion\": \"hola hola hola\",\r\n  \"estado\": \"HP EliteBook 840 G6\"\r\n  \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/usuario/editar/hola",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"usuario",
+								"editar",
+								"hola"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listarTickets",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "buscar por nombre",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "asiganar a tecnico",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/administrador/asignar/ticket/hola",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"administrador",
+								"asignar",
+								"ticket",
+								"hola"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar ticket",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiNzllNWMzZC1kYmIzLTRhMTQtYWNhMy01NWFhODI5ZGMxNTAiLCJpYXQiOjE3MDQ1NjAzODB9.uDngipxWqO0oUeMwg6wnIqR89RAOtP4hC9_Rx3bdlkXSVdzkPksaxrKmOWDCBw017Pv9RLNmztYK5-jdAaNPSw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9000/usuario/eliminar/ticket/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"usuario",
+								"eliminar",
+								"ticket",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
