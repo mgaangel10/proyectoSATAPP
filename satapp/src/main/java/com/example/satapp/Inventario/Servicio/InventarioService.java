@@ -2,6 +2,10 @@ package com.example.satapp.Inventario.Servicio;
 
 import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Dto.PostCrearInventarioDTO;
+import com.example.satapp.Inventario.Error.InventarioNombreIgual;
+import com.example.satapp.Inventario.Error.TipoNoValidos;
+import com.example.satapp.Inventario.Error.UbicacionesNoValidas;
+import com.example.satapp.Inventario.Exceptions.InventarioNotFound;
 import com.example.satapp.Inventario.Model.Estado;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Inventario.Model.Tipo;
@@ -26,15 +30,15 @@ public class InventarioService {
 
     public Inventario crearInventario(PostCrearInventarioDTO postCrearInventarioDTO ){
         if (inventarioRepo.existsByNombreIgnoreCase(postCrearInventarioDTO.nombre())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"El nombre del inventario ya existe");
+            throw new InventarioNombreIgual(HttpStatus.BAD_REQUEST,"El nombre del inventario ya existe");
         }else {
             Ubicaciones ubicaciones = Ubicaciones.valueOf(postCrearInventarioDTO.ubicaciones().toUpperCase());
             if (ubicaciones==null){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
+                throw new UbicacionesNoValidas(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
             }
             Tipo tipoEnum = Tipo.valueOf(postCrearInventarioDTO.tipo().toUpperCase());
             if (tipoEnum == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
+                throw new TipoNoValidos(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
             }
 
             Inventario inventario = Inventario.builder()
@@ -54,7 +58,7 @@ public class InventarioService {
     public List<GetListinventario> lidtarinventario(){
         List<GetListinventario> getListinventarios = inventarioRepo.getlist();
         if (getListinventarios.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay inventariois disponibles");
+            throw new InventarioNotFound();
         }else {
             return inventarioRepo.getlist();
         }
@@ -66,7 +70,7 @@ public class InventarioService {
         if (getListinventario.isPresent()){
             return inventarioRepo.finByNombre(nombre);
         }else {
-            throw new RuntimeException("no existe");
+            throw new InventarioNotFound();
         }
 
     }
@@ -74,7 +78,7 @@ public class InventarioService {
     public List<GetListinventario> findPorTipos(Tipo tipo){
         List<GetListinventario> getListinventarios = inventarioRepo.getlistPorTipos(tipo);
         if (getListinventarios.isEmpty()){
-            throw new RuntimeException("no se ha encontrado el inventario por el tipo "+tipo);
+            throw new TipoNoValidos(HttpStatus.NOT_FOUND,"no se ha encontrado el inventario por el tipo "+tipo);
         }else {
             return inventarioRepo.getlistPorTipos(tipo);
         }
@@ -84,7 +88,7 @@ public class InventarioService {
     public List<GetListinventario> findPorUbicaiones(Ubicaciones ubicaciones){
         List<GetListinventario> getListinventarios = inventarioRepo.getlistPorubicaciones(ubicaciones);
         if (getListinventarios.isEmpty()){
-            throw new RuntimeException("no se ha encontrado el inventario por el tipo "+ubicaciones);
+            throw new UbicacionesNoValidas(HttpStatus.NOT_FOUND,"no se ha encontrado el inventario por la ubicacion "+ubicaciones);
         }else {
             return inventarioRepo.getlistPorubicaciones(ubicaciones);
         }
@@ -96,11 +100,11 @@ public class InventarioService {
         if (inventario.isPresent()){
             Ubicaciones ubicaciones = Ubicaciones.valueOf(postCrearInventarioDTO.ubicaciones().toUpperCase());
             if (ubicaciones==null){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
+                throw new UbicacionesNoValidas(HttpStatus.BAD_REQUEST, "Ubicaciones de inventario no válido");
             }
             Tipo tipoEnum = Tipo.valueOf(postCrearInventarioDTO.tipo().toUpperCase());
             if (tipoEnum == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
+                throw new TipoNoValidos(HttpStatus.BAD_REQUEST, "Tipo de inventario no válido");
             }
 
 
@@ -115,7 +119,7 @@ public class InventarioService {
                 return inventarioRepo.save(i);
             }).orElse(null);
         }else {
-            throw new RuntimeException("no se han encontrado el nombre del inventario");
+            throw new InventarioNotFound();
         }
     }
 
@@ -124,7 +128,7 @@ public class InventarioService {
         if (inventarioOptional.isPresent()) {
             inventarioRepo.delete(inventarioOptional.get());
         } else {
-            throw new RuntimeException("No se encuentra el nombre del inventario");
+            throw new InventarioNotFound();
         }
     }
 

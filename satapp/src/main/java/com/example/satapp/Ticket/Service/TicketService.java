@@ -1,5 +1,7 @@
-package com.example.satapp.Ticket;
+package com.example.satapp.Ticket.Service;
 
+import com.example.satapp.Ticket.Error.TicketNoDisponibles;
+import com.example.satapp.Ticket.Exceptions.TicketNotFound;
 import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.Repositorio.TicketRepo;
 import com.example.satapp.Ticket.dto.GetListTicketsDto;
@@ -46,7 +48,7 @@ public class TicketService {
 
         List<PutAsignarTecnico> getListTicketsDtos = ticketRepo.getlist();
         if (getListTicketsDtos.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"No hay tickets disponibles");
+            throw new TicketNoDisponibles(HttpStatus.BAD_REQUEST,"No hay tickets disponibles");
         }else {
             return ticketRepo.getlist();
         }
@@ -63,7 +65,7 @@ public class TicketService {
                 return ticketRepo.save(t);
             }).orElse(null);
         }else {
-            throw new RuntimeException("El ticket no se ha sido encontrado");
+            throw new TicketNotFound();
         }
 
 
@@ -80,7 +82,7 @@ public class TicketService {
                 return ticketRepo.save(t);
             }).orElse(null);
         }{
-            throw new RuntimeException("El ticket no se ha sido encontrado");
+            throw new TicketNotFound();
         }
     }
 
@@ -89,7 +91,7 @@ public class TicketService {
         if (ticket.isPresent()){
             return ticketRepo.findByNombreIgnoreCase(nombre);
         }else {
-            throw new RuntimeException("no se han encontrado nun ticket");
+            throw new TicketNotFound();
         }
     }
 
@@ -98,7 +100,7 @@ public class TicketService {
         if (ticket.isPresent()){
             ticketRepo.delete(ticket.get());
         }else {
-            throw new RuntimeException("No se enciuentra el ticket");
+            throw new TicketNotFound();
         }
     }
 

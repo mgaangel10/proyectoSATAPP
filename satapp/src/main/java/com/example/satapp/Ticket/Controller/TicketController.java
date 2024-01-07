@@ -1,11 +1,10 @@
-package com.example.satapp.Ticket;
+package com.example.satapp.Ticket.Controller;
 
 import com.example.satapp.Ticket.Model.Ticket;
-import com.example.satapp.Ticket.dto.GetListTicketsDto;
+import com.example.satapp.Ticket.Service.TicketService;
 import com.example.satapp.Ticket.dto.PostCrearTicketDto;
 import com.example.satapp.Ticket.dto.PutAsignarTecnico;
 import com.example.satapp.users.Dto.PostCrearUserDto;
-import com.example.satapp.users.Dto.PostLogin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.desktop.UserSessionEvent;
 import java.util.List;
 import java.util.Optional;
 
