@@ -4,6 +4,8 @@ import com.example.satapp.Inventario.Dto.GetListinventario;
 import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Inventario.Model.Tipo;
 import com.example.satapp.Inventario.Model.Ubicaciones;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,7 +28,7 @@ public interface InventarioRepo extends JpaRepository<Inventario, UUID> {
             )
             from Inventario i
             """)
-    List<GetListinventario> getlist();
+    Page<GetListinventario> getlist(Pageable pageable);
 
     @Query("""
             select new com.example.satapp.Inventario.Dto.GetListinventario(

@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -89,10 +92,15 @@ public class InventarioController {
                     content = @Content)
     })
     @GetMapping("/usuario/listar/inventario")
-    public ResponseEntity<List<GetListinventario>> findall(){
+    public ResponseEntity<Page<GetListinventario>> findall(@PageableDefault(page = 0,size = 10)Pageable pageable){
 
-        List<GetListinventario> inventarios = inventarioService.lidtarinventario();
-        return ResponseEntity.ok(inventarios);
+        Page<GetListinventario> inventarios = inventarioService.lidtarinventario(pageable);
+        if (inventarios.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else {
+
+            return ResponseEntity.ok(inventarios);
+        }
     }
     @Operation(summary = "Listar un inventario")
     @ApiResponses(value = {
@@ -117,10 +125,15 @@ public class InventarioController {
                     content = @Content)
     })
     @GetMapping("/administrador/listar/inventario")
-    public ResponseEntity<List<GetListinventario>> findalladministrador(){
+    public ResponseEntity<Page<GetListinventario>> findalladministrador(@PageableDefault(page = 0,size = 10)Pageable pageable){
 
-        List<GetListinventario> inventarios = inventarioService.lidtarinventario();
-        return ResponseEntity.ok(inventarios);
+        Page<GetListinventario> inventarios = inventarioService.lidtarinventario(pageable);
+        if (inventarios.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else {
+
+            return ResponseEntity.ok(inventarios);
+        }
     }
     @Operation(summary = "Buscar un inventario por su nombre")
     @ApiResponses(value = {
