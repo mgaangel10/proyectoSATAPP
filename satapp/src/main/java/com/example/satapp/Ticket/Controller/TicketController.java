@@ -114,7 +114,7 @@ public class TicketController {
         }else {
             return ResponseEntity.ok(getListTicketsDtos);
         }
-       
+
     }
     @Operation(summary = "buscar ticket por nombre")
     @ApiResponses(value = {
