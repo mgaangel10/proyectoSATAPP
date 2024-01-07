@@ -4,9 +4,10 @@
 Este proyecto consiste en la implementación de una API que permite gestionar los equipos informáticos del colegio, así como las incidencias de los mismos. Ofrece una funcionalidad rápida y versátil, pudiendo fácilmente gestionar las incidencias, para que estas puedan ser resueltas lo antes posible.
 
 ## Tecnologías
-Para la implementación de este proyecto se utilizarán Spring Boot y Postgresql.
+Para la implementación de este proyecto se utilizarán Spring Boot.
 
 ## Funcionalidades
+###En Postamn al hacer login de administrador y usuario en el resultado del token cada vez que hagas un endpoint tienes que copiar el token y pegarlo en el header de la petecion en el Bearer.
 
 ### Registro y Login
 Cualquier usuario podrá registrarse en la app, aunque para poder utilizarla definitivamente un usuario con rol de administrador tendrá que validarlo. Debe haber una petición de usuarios no validados. La seguridad que se utilizará será JWT.
