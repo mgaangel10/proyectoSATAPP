@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,9 +107,14 @@ public class TicketController {
                     content = @Content)
     })
     @GetMapping("/administrador/listar/tickets")
-    public ResponseEntity<List<PutAsignarTecnico>> listarTodo() {
-        List<PutAsignarTecnico> getListTicketsDtos = ticketService.listarTodo();
-        return ResponseEntity.ok(getListTicketsDtos);
+    public ResponseEntity<Page<PutAsignarTecnico>> listarTodo(@PageableDefault(page = 0,size = 10)Pageable pageable) {
+        Page<PutAsignarTecnico> getListTicketsDtos = ticketService.listarTodo(pageable);
+        if (getListTicketsDtos.isEmpty()){
+           return ResponseEntity.noContent().build();
+        }else {
+            return ResponseEntity.ok(getListTicketsDtos);
+        }
+       
     }
     @Operation(summary = "buscar ticket por nombre")
     @ApiResponses(value = {

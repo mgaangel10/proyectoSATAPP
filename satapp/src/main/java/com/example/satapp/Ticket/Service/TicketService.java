@@ -13,6 +13,8 @@ import com.example.satapp.users.model.Usuario;
 import com.example.satapp.users.repositorio.UsuarioRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -44,13 +46,13 @@ public class TicketService {
 
         return ticketRepo.save(ticket);
     }
-    public List<PutAsignarTecnico> listarTodo(){
+    public Page<PutAsignarTecnico> listarTodo(Pageable pageable){
 
-        List<PutAsignarTecnico> getListTicketsDtos = ticketRepo.getlist();
+        Page<PutAsignarTecnico> getListTicketsDtos = ticketRepo.getlist(pageable);
         if (getListTicketsDtos.isEmpty()){
             throw new TicketNoDisponibles(HttpStatus.BAD_REQUEST,"No hay tickets disponibles");
         }else {
-            return ticketRepo.getlist();
+            return ticketRepo.getlist(pageable);
         }
     }
 

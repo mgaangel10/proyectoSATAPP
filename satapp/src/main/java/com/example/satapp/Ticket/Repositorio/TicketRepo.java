@@ -5,6 +5,8 @@ import com.example.satapp.Inventario.Model.Inventario;
 import com.example.satapp.Ticket.Model.Ticket;
 import com.example.satapp.Ticket.dto.GetListTicketsDto;
 import com.example.satapp.Ticket.dto.PutAsignarTecnico;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,6 +29,6 @@ public interface TicketRepo extends JpaRepository<Ticket, UUID> {
             )
             from Ticket t
             """)
-    List<PutAsignarTecnico> getlist();
+    Page<PutAsignarTecnico> getlist(Pageable pageable);
 
 }

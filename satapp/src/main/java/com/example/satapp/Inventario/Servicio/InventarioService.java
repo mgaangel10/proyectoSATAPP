@@ -12,6 +12,8 @@ import com.example.satapp.Inventario.Model.Tipo;
 import com.example.satapp.Inventario.Model.Ubicaciones;
 import com.example.satapp.Inventario.Repositorio.InventarioRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -55,12 +57,12 @@ public class InventarioService {
         }
     }
 
-    public List<GetListinventario> lidtarinventario(){
-        List<GetListinventario> getListinventarios = inventarioRepo.getlist();
+    public Page<GetListinventario> lidtarinventario(Pageable pageable){
+        Page<GetListinventario> getListinventarios = inventarioRepo.getlist(pageable);
         if (getListinventarios.isEmpty()){
             throw new InventarioNotFound();
         }else {
-            return inventarioRepo.getlist();
+            return inventarioRepo.getlist(pageable);
         }
 
     }
